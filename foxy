@@ -14,8 +14,6 @@ usage () {
 }
 
 tag_array () {
-#    echo $args
-#    echo $link
     tagz=""
     
     for i in $args
@@ -27,7 +25,7 @@ tag_array () {
 		tagz+=" "
 	fi
     done
-    # keep only thte tags
+    # keep only the tags
     tagz=$(echo $tagz | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
     echo $tagz | sed 's/$/: /' | sed "s%$%$dalink%" >> $BOOKMARKS
     echo '' >> $BOOKMARKS
@@ -62,7 +60,6 @@ do
 	    args=$*
 	    dalink=$2
 	    aflag=1
-	    #tag_array $args
 	    break
 	    ;;
 	*)
