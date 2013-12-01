@@ -41,6 +41,9 @@ show_bmarks () {
 # argument parsing
 #-------------------------------------------------------------------------------
 
+sflag=0
+aflag=0
+
 while :
 do
     case $1 in
@@ -49,24 +52,35 @@ do
 	    exit 0
 	    ;;
 	-s)
-	    #tag=$2
-	    #shift 2
-	    #show_bmarks $tag
+	    nor=$#
+	    sflag=1
+	    tag=$2
 	    break
 	    ;;
 	-a)
+	    aflag=1
 	    link=$2
-	    shift 2
+	    break
 	    ;;
 	*)
+	    usage
 	    break
 	    ;;
     esac
 done
 #-------------------------------------------------------------------------------
 
+# -s, must check that tag starts with @
+if [[ $sflag -eq 1 ]];  then
+    if [[ $nor > 1 ]]; then
+	show_bmarks $tag
+    else
+	usage
+    fi
+fi
+
 # -a
-if [[ "$1" -eq "-a" ]]; then
+if [[ $aflag -eq 1 ]]; then
     array=()
     a=$*
 
