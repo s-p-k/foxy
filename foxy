@@ -1,0 +1,103 @@
+#!/usr/bin/bash
+
+################################################################################
+# foxy is a simple bash script that handles bookmarks that are stored in text
+# files. It's written for use with firefox browser.
+################################################################################
+
+#-------------------------------------------------------------------------------
+# functions
+#-------------------------------------------------------------------------------
+usage () {
+    echo "Usage: $0 [-h] [-s tag] [-a link tag1 tag2...tagn]"
+}
+
+show_bmarks () {
+
+    arr=($(awk '/'$tag'/{ print NR; }' bookmarks.txt))
+    l=${#arr[*]}
+
+    if [[ "$l" > 0 ]]; then
+	for i in "${arr[@]}"
+	do
+	    cat -n bookmarks.txt | sed -n "${i}p;"
+	    k=$[i+1]
+	    cat -n bookmarks.txt | sed -n "${k}p;"
+
+	    if [[ "$i" -eq "$l" ]]; then
+		break
+	    else
+		echo ''
+	    fi
+	done
+    fi
+}
+
+# must write add_bmark func
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# argument parsing
+#-------------------------------------------------------------------------------
+
+while :
+do
+    case $1 in
+	-h)
+	    usage
+	    exit 0
+	    ;;
+	-s)
+	    #tag=$2
+	    #shift 2
+	    #show_bmarks $tag
+	    break
+	    ;;
+	-a)
+	    link=$2
+	    shift 2
+	    #echo $link
+	    ;;
+	*)
+	    break
+	    ;;
+    esac
+done
+#-------------------------------------------------------------------------------
+
+# -a
+if [[ "$1" -eq "-a" ]]; then
+    array=()
+    a=$*
+
+    if [[ $a < 1 ]]; then
+	echo 'not enough params'
+	exit 1
+    fi
+
+    for i in $a
+    do
+	case $i in
+	    -a)
+		continue
+		;;
+	    *)
+		array+=($i) # create an array with all the tags
+		;;
+	esac
+    done
+
+    # add a @ before every tag
+    arr=()
+    for i in "${array[@]}"
+    do
+	arr+=$(echo $i | sed 's/^/@/' | sed 's/$/, /')
+    done
+
+    # remove comma from the last tag, add # followed by space to the beginning of line
+    arr=$(echo $arr | sed 's/^/# /' | sed '$s/.$//')
+    echo $arr >> bookmarks.txt
+    echo $link >> bookmarks.txt
+    echo >> bookmarks.txt
+fi
