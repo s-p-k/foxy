@@ -1,0 +1,86 @@
+#!/usr/bin/sh
+
+#-------------------------------------------------------------------------------
+# files
+#-------------------------------------------------------------------------------
+
+BOOKMARKS=/home/spk/repos/foxy/bookmarks.txt
+
+#-------------------------------------------------------------------------------
+# functions
+#-------------------------------------------------------------------------------
+usage () {
+    echo "Usage: $0 [-h] [-s tag] [-a link tag1 tag2...tagn]"
+}
+
+tag_array () {
+#    echo $args
+#    echo $link
+    tagz=""
+    
+    for i in $args
+    do
+	if [ $i == "-a" ]; then
+	    continue
+	else
+		tagz+=$i
+		tagz+=" "
+	fi
+    done
+    # keep only thte tags
+    tagz=$(echo $tagz | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    echo $tagz | sed 's/$/: /' | sed "s%$%$dalink%" >> $BOOKMARKS
+    echo '' >> $BOOKMARKS
+exit 0
+}
+
+show_bmarks () {
+    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}'
+}
+#-------------------------------------------------------------------------------
+# argument parsing
+#-------------------------------------------------------------------------------
+
+aflag=0
+sflag=0
+
+while :
+do
+    case $1 in
+	-h)
+	    usage
+	    exit 0
+	    ;;
+	-s)
+	    nargs=$#
+	    sflag=1
+	    tag=$2
+	    break
+	    ;;
+	-a)
+	    nargs=$#
+	    args=$*
+	    dalink=$2
+	    aflag=1
+	    #tag_array $args
+	    break
+	    ;;
+	*)
+	    usage
+	    exit 1
+	    ;;
+    esac
+done
+#-------------------------------------------------------------------------------
+
+if [ $sflag -eq 1 -a $nargs -lt 3 ]; then
+    show_bmarks $tag
+    exit 0
+elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then 
+    tag_array $args $dalink
+    exit 0
+else
+    echo 'not enough or too many params'
+    usage
+    exit 1
+fi
