@@ -4,13 +4,15 @@
 # files
 #-------------------------------------------------------------------------------
 
+BROWSER=firefox
 BOOKMARKS=/home/spk/repos/foxy/bookmarks.txt
+TMPBOOKMARKS=/home/spk/repos/foxy/tmp.txt
 
 #-------------------------------------------------------------------------------
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-s tag] [-a link tag1 tag2...tagn]"
+    echo "Usage: $0 [-h] [-s tag] [-o number] [-a link tag1 tag2...tagn]"
 }
 
 tag_array () {
@@ -33,7 +35,19 @@ exit 0
 }
 
 show_bmarks () {
-    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}'
+#    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}'
+    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
+    cat -n $TMPBOOKMARKS
+}
+
+open_page () {
+    lines=$(wc -l $TMPBOOKMARKS | sed 's/[^0-9]//g')
+    if [ $lines -lt $line_num ]; then
+	echo 'wrong bookmark number'
+	exit 1
+    else
+	$BROWSER -new-tab $(cat $TMPBOOKMARKS | sed -n "$line_num"'p') 2>/dev/null
+    fi
 }
 #-------------------------------------------------------------------------------
 # argument parsing
@@ -41,6 +55,7 @@ show_bmarks () {
 
 aflag=0
 sflag=0
+oflag=0
 
 while :
 do
@@ -62,6 +77,12 @@ do
 	    aflag=1
 	    break
 	    ;;
+	-o)
+	    nargs=$#
+	    oflag=1
+	    line_num=$2
+	    break
+	    ;;
 	*)
 	    usage
 	    exit 1
@@ -76,6 +97,14 @@ if [ $sflag -eq 1 -a $nargs -lt 3 ]; then
 elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then 
     tag_array $args $dalink
     exit 0
+elif [ $oflag -eq 1 -a $nargs -eq 2 ]; then
+    if ! [ $2 -eq $2 2>/dev/null ]; then
+	echo '-o accepts only numeric arguments'
+	exit 1
+    else
+	open_page $line_num
+    exit 0
+    fi
 else
     echo 'not enough or too many params'
     usage
