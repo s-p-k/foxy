@@ -2,6 +2,5 @@
 foxy
 ====
 
-A simple bash script that handles bookmarks stored in txt files.
-
-Still has a lot of bugs. DON'T use.
+A simple script that handles bookmarks stored in txt files.
+It's written for use with firefox.
