@@ -12,7 +12,7 @@ TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-s @tag] [-o number] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-t] [-s @tag] [-o number] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -39,6 +39,10 @@ show_bmarks () {
     cat -n $TMPBOOKMARKS
 }
 
+show_tags () {
+    cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort | uniq
+}
+
 open_page () {
     lines=$(wc -l $TMPBOOKMARKS | sed 's/[^0-9]//g')
     if [ $lines -lt $line_num ]; then
@@ -54,8 +58,9 @@ open_page () {
 #-------------------------------------------------------------------------------
 
 aflag=0
-sflag=0
 oflag=0
+sflag=0
+tflag=0
 
 while :
 do
@@ -83,12 +88,16 @@ do
 	    line_num=$2
 	    break
 	    ;;
+	-t)
+	    nargs=$#
+	    tflag=1
+	    break
+	    ;;
 	*)
 	    usage
 	    exit 1
 	    ;;
     esac
-    break
 done
 #-------------------------------------------------------------------------------
 
@@ -96,7 +105,7 @@ if [ $aflag -eq 1 -a $oflag -eq 1 ]; then
     usage
 fi
 
-if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $sflag -eq 0 ]; then
+if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $sflag -eq 0 -a $tflag -eq 0 ]; then
     show_bmarks $tag
     exit 0
 elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
@@ -110,6 +119,9 @@ elif [ $oflag -eq 1 -a $nargs -eq 2 ]; then
 	open_page $line_num
     exit 0
     fi
+elif [ $tflag -eq 1 -a $nargs -eq 1 ]; then
+    show_tags
+    exit 0
 else
     echo 'not enough or too many params'
     usage
