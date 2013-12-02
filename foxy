@@ -5,8 +5,8 @@
 #-------------------------------------------------------------------------------
 
 BROWSER=firefox
-BOOKMARKS=/home/spk/repos/foxy/bookmarks.txt
-TMPBOOKMARKS=/home/spk/repos/foxy/tmp.txt
+BOOKMARKS=$HOME/repos/foxy/bookmarks.txt
+TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
 
 #-------------------------------------------------------------------------------
 # functions
@@ -35,7 +35,6 @@ exit 0
 }
 
 show_bmarks () {
-#    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}'
     cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
     cat -n $TMPBOOKMARKS
 }
@@ -46,9 +45,10 @@ open_page () {
 	echo 'wrong bookmark number'
 	exit 1
     else
-	$BROWSER -new-tab $(cat $TMPBOOKMARKS | sed -n "$line_num"'p') 2>/dev/null
+	$BROWSER -new-tab $(cat $TMPBOOKMARKS | sed -n "${line_num}p") 2>/dev/null
     fi
 }
+
 #-------------------------------------------------------------------------------
 # argument parsing
 #-------------------------------------------------------------------------------
