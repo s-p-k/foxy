@@ -1,6 +1,6 @@
 TODO
 ====
 
-* Add -t switch: show all @tags.n
+* Add -t switch: show all @tags.
 
 * Group sed wherever possible.
