@@ -88,13 +88,18 @@ do
 	    exit 1
 	    ;;
     esac
+    break
 done
 #-------------------------------------------------------------------------------
 
-if [ $sflag -eq 1 -a $nargs -lt 3 ]; then
+if [ $aflag -eq 1 -a $oflag -eq 1 ]; then
+    usage
+fi
+
+if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $sflag -eq 0 ]; then
     show_bmarks $tag
     exit 0
-elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then 
+elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
     tag_array $args $dalink
     exit 0
 elif [ $oflag -eq 1 -a $nargs -eq 2 ]; then
