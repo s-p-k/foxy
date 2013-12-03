@@ -2,7 +2,7 @@
 foxy
 ====
 
-A simple script that handles bookmarks stored in txt files. It's written so that
+A simple script that handles bookmarks stored in txt file. It's written so that
 one can quickly open his bookmarks that are stored in a plain text file to an
 already running firefox session through the terminal. I mostly run this script
 from a tabbed window in i3 window manager (2 tabs: firefox and terminal) as 
