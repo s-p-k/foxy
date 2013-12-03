@@ -1,6 +1,6 @@
 TODO
 ====
 
-* Add -t switch: show all @tags.
-
 * Group sed wherever possible.
+
+* call usage if user calls foxy with multiple options
