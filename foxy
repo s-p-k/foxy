@@ -105,7 +105,7 @@ if [ $aflag -eq 1 -a $oflag -eq 1 ]; then
     usage
 fi
 
-if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $sflag -eq 0 -a $tflag -eq 0 ]; then
+if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $tflag -eq 0 ]; then
     show_bmarks $tag
     exit 0
 elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
