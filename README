@@ -2,5 +2,36 @@
 foxy
 ====
 
-A simple script that handles bookmarks stored in txt files.
-It's written for use with firefox.
+A simple script that handles bookmarks stored in txt files. It's written so that
+one can quickly open his bookmarks that are stored in a plain text file to an
+already running firefox session through the terminal. I mostly run this script
+from a tabbed window in i3 window manager (2 tabs: firefox and terminal) as 
+the focus returns to firefox after running the -o option.
+
+options
+=======
+
+-h
+	show usage message and quit.
+
+-s @tag:
+	search for a tag in $BOOKMARKS file. Currently foxy can search only for
+	one tag.
+
+	e.g. foxy -s @search-engine
+		1 https://www.duckduckgo.com
+
+To open this link we then use -o option:
+
+-o [n]
+	open the nth link as listed from the -s option.
+
+	e.g. foxy -o 1
+
+-a LINK @tag1 @tag2...@tagn
+	add LINK as a bookmark with tags from 1 to [n].
+
+	e.g. foxy -a http://www.google.com @search-engine @google
+
+-t
+	show all bookmark tags filtered with uniq(1).
