@@ -49,7 +49,6 @@ show_tags () {
 #-------------------------------------------------------------------------------
 
 aflag=0
-#oflag=0
 sflag=0
 tflag=0
 
@@ -86,24 +85,12 @@ do
 done
 #-------------------------------------------------------------------------------
 
-if [ $aflag -eq 1 -a $oflag -eq 1 ]; then
-    usage
-fi
-
 if [ $sflag -eq 1 -a $nargs -lt 3 -a $tflag -eq 0 ]; then
     show_bmarks $tag
     exit 0
 elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
     tag_array $args $dalink
     exit 0
-elif [ $oflag -eq 1 -a $nargs -eq 2 ]; then
-    if ! [ $2 -eq $2 2>/dev/null ]; then
-	echo '-o accepts only numeric arguments'
-	exit 1
-    else
-	open_page $line_num
-    exit 0
-    fi
 elif [ $tflag -eq 1 -a $nargs -eq 1 ]; then
     show_tags
     exit 0
