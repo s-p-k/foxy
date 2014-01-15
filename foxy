@@ -36,10 +36,7 @@ exit 0
 
 show_bmarks () {
     cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
-#    cat -n $TMPBOOKMARKS
-    #cat $TMPBOOKMARKS
     URL=$(cat $TMPBOOKMARKS | dmenu -l 10)
-    #echo $URL
     $BROWSER -new-tab $URL 2>/dev/null 
 }
 
