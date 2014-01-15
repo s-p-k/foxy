@@ -36,21 +36,15 @@ exit 0
 
 show_bmarks () {
     cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
-    cat -n $TMPBOOKMARKS
+#    cat -n $TMPBOOKMARKS
+    #cat $TMPBOOKMARKS
+    URL=$(cat $TMPBOOKMARKS | dmenu -l 10)
+    #echo $URL
+    $BROWSER -new-tab $URL 2>/dev/null 
 }
 
 show_tags () {
-    cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort | uniq
-}
-
-open_page () {
-    lines=$(wc -l $TMPBOOKMARKS | sed 's/[^0-9]//g')
-    if [ $lines -lt $line_num ]; then
-	echo 'wrong bookmark number'
-	exit 1
-    else
-	$BROWSER -new-tab $(cat $TMPBOOKMARKS | sed -n "${line_num}p") 2>/dev/null
-    fi
+    cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort | uniq | dmenu -l 10
 }
 
 #-------------------------------------------------------------------------------
@@ -58,7 +52,7 @@ open_page () {
 #-------------------------------------------------------------------------------
 
 aflag=0
-oflag=0
+#oflag=0
 sflag=0
 tflag=0
 
@@ -82,12 +76,6 @@ do
 	    aflag=1
 	    break
 	    ;;
-	-o)
-	    nargs=$#
-	    oflag=1
-	    line_num=$2
-	    break
-	    ;;
 	-t)
 	    nargs=$#
 	    tflag=1
@@ -105,7 +93,7 @@ if [ $aflag -eq 1 -a $oflag -eq 1 ]; then
     usage
 fi
 
-if [ $sflag -eq 1 -a $nargs -lt 3 -a $oflag -eq 0 -a $tflag -eq 0 ]; then
+if [ $sflag -eq 1 -a $nargs -lt 3 -a $tflag -eq 0 ]; then
     show_bmarks $tag
     exit 0
 elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
