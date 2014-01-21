@@ -37,7 +37,12 @@ exit 0
 show_bmarks () {
     cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
     URL=$(cat $TMPBOOKMARKS | dmenu -l 10)
-    $BROWSER -new-tab $URL 2>/dev/null 
+    if [ -n "$URL" ]; then
+	$BROWSER -new-tab $URL 2>/dev/null
+    else
+	echo "no links found"
+	exit 0
+    fi	
 }
 
 show_tags () {
