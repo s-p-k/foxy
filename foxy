@@ -41,7 +41,6 @@ show_bmarks () {
 	$BROWSER -new-tab $URL 2>/dev/null
     else
 	echo "no links found"
-	exit 0
     fi	
 }
 
