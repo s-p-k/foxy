@@ -45,7 +45,7 @@ show_bmarks () {
 }
 
 show_tags () {
-     cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort -u | dmenu -l 10
+      cat bookmarks.txt | awk '{print $0}' RS=' ' | grep '^[^@\s:]' | sort -u | dmenu -l 10
 }
 
 #-------------------------------------------------------------------------------
