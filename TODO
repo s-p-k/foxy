@@ -1,6 +1,6 @@
 TODO
 ====
 
-* Group sed wherever possible.
+* Handle links that have "weird" characters
 
-* call usage if user calls foxy with multiple options
+* Don't oblige the user to use @ when using the -s option
