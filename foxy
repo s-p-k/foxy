@@ -5,6 +5,7 @@
 #-------------------------------------------------------------------------------
 
 BROWSER=firefox
+#BROWSER=surf
 BOOKMARKS=$HOME/repos/foxy/bookmarks.txt
 TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
 
@@ -38,14 +39,18 @@ show_bmarks () {
     cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
     URL=$(cat $TMPBOOKMARKS | dmenu -l 10)
     if [ -n "$URL" ]; then
-	$BROWSER -new-tab $URL 2>/dev/null
+        if [ "$BROWSER" = "firefox" ]; then
+	    $BROWSER -new-tab $URL 2>/dev/null
+        else
+            $BROWSER -isg $URL &
+        fi
     else
 	echo "no links found"
     fi	
 }
 
 show_tags () {
-    cat bookmarks.txt | awk '{print $0}' RS=' ' | grep '^[^@\s:]' | sort -u | dmenu -l 10
+    cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort -u | dmenu -l 10
 }
 
 #-------------------------------------------------------------------------------
