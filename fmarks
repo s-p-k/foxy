@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# fast way to open often visited pages just edit pages.txt
+# works with surf and firefox, if no option is passed to fmarks, it assumes surf
+
+usage () {
+    echo "Usage: $0 [-h] [-f] [-s]"
+}
+
+
+hflag=0
+fflag=0
+sflag=0
+
+while :
+do
+    case $1 in
+	-h)
+	    usage
+	    exit 0
+	    ;;
+	-f)
+	    fflag=1
+	    break
+	    ;;
+	*)
+	    if [ $# -eq 0 ]; then
+		sflag=1
+		break;
+	    else
+		usage
+		exit 1
+	    fi
+	    ;;
+    esac
+done
+
+if [ $sflag -eq 1 ]; then
+    URL=$(cat pages.txt | dmenu -l 10)
+    surf -sg $URL &
+fi
+
+if [ $fflag -eq 1 ]; then
+    URL=$(cat pages.txt | dmenu -l 10)
+    firefox -new-tab $URL 2>/dev/null
+fi
