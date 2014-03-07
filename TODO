@@ -2,3 +2,5 @@ TODO
 ====
 
 * Handle links that have "weird" characters
+
+* Don't oblige the user to use @ in the -a option

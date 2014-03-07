@@ -15,7 +15,7 @@ options
 
 You can run foxy with the below options directly from dmenu:
 
--s tag:
+-s tag
 	search for a tag in $BOOKMARKS file. Currently foxy can search only for
 	one tag. Show the search results using dmenu so the user can choose a
 	link.
@@ -29,3 +29,19 @@ You can run foxy with the below options directly from dmenu:
 
 -t
 	show all bookmark tags filtered with uniq(1).
+
+fmarks
+======
+
+Another simple script that can be used with or without foxy but I find it quite
+handy anyway. What fmarks does is that it can open fast pages for you.
+
+options
+=======
+
+if no option is passed to fmarks, it assumes you want to open a page with surf.
+
+-f
+	fmarks will open the page with firefox
+
+-h	show help message and exit
