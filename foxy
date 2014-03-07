@@ -6,7 +6,7 @@
 
 BROWSER=firefox
 #BROWSER=surf
-BOOKMARKS=$HOME/repos/foxy/bookmarks.txt
+BOOKMARKS=$HOME/repos/bookmarks/bookmarks.txt
 TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
 
 #-------------------------------------------------------------------------------
