@@ -13,7 +13,7 @@ TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-t] [-s @tag] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-t] [-s tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -30,7 +30,9 @@ tag_array () {
     done
     # keep only the tags
     tagz=$(echo $tagz | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    # append ": " to the and of the tags and the link
     echo $tagz | sed 's/$/: /' | sed "s%$%$dalink%" >> $BOOKMARKS
+    # append new line to the end of the bookmark file
     echo '' >> $BOOKMARKS
 exit 0
 }
@@ -72,6 +74,7 @@ do
 	    nargs=$#
 	    sflag=1
 	    tag=$2
+	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	-a)
