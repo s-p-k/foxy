@@ -15,12 +15,12 @@ options
 
 You can run foxy with the below options directly from dmenu:
 
--s @tag:
+-s tag:
 	search for a tag in $BOOKMARKS file. Currently foxy can search only for
 	one tag. Show the search results using dmenu so the user can choose a
 	link.
 	
-	e.g. foxy -s @search-engine
+	e.g. foxy -s search-engine
 
 -a LINK @tag1 @tag2...@tagn
 	add LINK as a bookmark with tags from 1 to [n].
