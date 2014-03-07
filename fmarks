@@ -13,7 +13,6 @@ usage () {
     echo "Usage: $0 [-h] [-f] [-s]"
 }
 
-
 hflag=0
 fflag=0
 sflag=0
