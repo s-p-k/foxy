@@ -7,7 +7,7 @@
 # files
 #--------------------------------------------------------------------------------
 
-PAGES=$HOME/repos/foxy/pages.txt
+PAGES=$HOME/repos/bookmarks/pages.txt
 
 #-------------------------------------------------------------------------------
 
@@ -47,6 +47,6 @@ if [ $sflag -eq 1 ]; then
 fi
 
 if [ $fflag -eq 1 ]; then
-    URL=$(cat pages.txt | dmenu -l 10)
-    firefox -new-tab $PAGES 2>/dev/null
+    URL=$(cat $PAGES | dmenu -l 10)
+    firefox -new-tab $URL 2>/dev/null
 fi
