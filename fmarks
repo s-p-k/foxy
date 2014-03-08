@@ -12,7 +12,7 @@ PAGES=$HOME/repos/foxy/pages.txt
 #-------------------------------------------------------------------------------
 
 usage () {
-    echo "Usage: $0 [-h] [-f] [-s]"
+    echo "Usage: $0 [-h] [-f]"
 }
 
 fflag=0
