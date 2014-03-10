@@ -23,6 +23,10 @@ tag_array () {
     do
 	if [ $i == "-a" ]; then
 	    continue
+	elif [ $i == "-s" -o $i == "-t" ]; then
+            echo "don't use more than one flags"
+            usage
+            exit 1
 	else
 		tagz+=$i
 		tagz+=" "
