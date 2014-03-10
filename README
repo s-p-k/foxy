@@ -46,3 +46,9 @@ if no option is passed to fmarks, it assumes you want to open a page with surf.
 	fmarks will open the page with firefox
 
 -h	show help message and exit
+
+Bugs
+====
+
+If a proper number of arguments is passed to foxy when using the -a flag,
+it can't tell if the user passed a proper URL
