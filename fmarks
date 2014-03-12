@@ -43,10 +43,14 @@ done
 
 if [ $sflag -eq 1 ]; then
     URL=$(cat $PAGES | dmenu -l 10)
-    surf -sg $URL &
+    if [ -n "$URL" ]; then
+	surf -sg $URL &
+    fi
 fi
 
 if [ $fflag -eq 1 ]; then
     URL=$(cat $PAGES | dmenu -l 10)
-    firefox -new-tab $URL 2>/dev/null
+    if [ -n "$URL" ]; then
+	firefox -new-tab $URL 2>/dev/null
+    fi
 fi
