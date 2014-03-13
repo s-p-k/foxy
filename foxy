@@ -28,8 +28,7 @@ tag_array () {
             usage
             exit 1
 	else
-		tagz+=$i
-		tagz+=" "
+	    tagz="$tagz $i "
 	fi
     done
     # keep only the tags
@@ -38,7 +37,7 @@ tag_array () {
     echo $tagz | sed 's/$/: /' | sed "s%$%$dalink%" >> $BOOKMARKS
     # append new line to the end of the bookmark file
     echo '' >> $BOOKMARKS
-exit 0
+    exit 0
 }
 
 show_bmarks () {
