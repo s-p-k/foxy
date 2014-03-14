@@ -1,13 +1,15 @@
 #!/bin/sh
+#
+# See LICENSE file for details
 
 #-------------------------------------------------------------------------------
-# files
+# files & browsers
 #-------------------------------------------------------------------------------
 
-BROWSER=firefox
-#BROWSER=surf
-BOOKMARKS=$HOME/repos/bookmarks/bookmarks.txt
-TMPBOOKMARKS=$HOME/repos/foxy/tmp.txt
+#browser=firefox
+browser=surf
+bookmarks=$HOME/repos/bookmarks/bookmarks.txt
+tmpbookmarks=$HOME/repos/foxy/tmp.txt
 
 #-------------------------------------------------------------------------------
 # functions
@@ -17,45 +19,48 @@ usage () {
 }
 
 tag_array () {
-    tagz=""
+    tags=""
     
     for i in $args
     do
-	if [ $i == "-a" ]; then
+	if [ $i == "-a" ];
+	then
 	    continue
-	elif [ $i == "-s" -o $i == "-t" ]; then
-            echo "don't use more than one flags"
-            usage
-            exit 1
+	elif [ $i == "-s" -o $i == "-t" ];
+	then
+	    echo "don't use more than one flags"
+	    usage
+	    exit 1
 	else
-	    tagz="$tagz $i "
+	    tags="$tags $i "
 	fi
     done
     # keep only the tags
-    tagz=$(echo $tagz | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    tags=$(echo $tags | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
     # append ": " to the and of the tags and the link
-    echo $tagz | sed 's/$/: /' | sed "s%$%$dalink%" >> $BOOKMARKS
+    echo $tags | sed 's/$/: /' | sed "s%$%$dalink%" >> $bookmarks
     # append new line to the end of the bookmark file
-    echo '' >> $BOOKMARKS
+    echo '' >> $bookmarks
     exit 0
 }
 
 show_bmarks () {
-    cat $BOOKMARKS | grep $tag | awk -F': ' '{print $2}' > $TMPBOOKMARKS
-    URL=$(cat $TMPBOOKMARKS | dmenu -l 10)
-    if [ -n "$URL" ]; then
-        if [ "$BROWSER" = "firefox" ]; then
-	    $BROWSER -new-tab $URL 2>/dev/null
-        else
-            $BROWSER -isg $URL &
-        fi
+    cat $bookmarks | grep $tag | awk -F': ' '{print $2}' > $tmpbookmarks
+    url=$(cat $tmpbookmarks | dmenu -l 10)
+    if [ -n "$url" ]; then
+	if [ "$browser" = "firefox" ]; then
+	    $browser -new-tab $url 2>/dev/null
+	else
+	    $browser -isg $url &
+	fi
     else
 	echo "no links found"
     fi	
 }
 
 show_tags () {
-    cat $BOOKMARKS | awk '{print $0}' RS=' ' | grep @ | sed 's/://' | sort -u | dmenu -l 10
+    cat $bookmarks | awk '{print $0}' RS=' ' \
+	| grep @ | sed 's/://' | sort -u | dmenu -l 10
 }
 
 #-------------------------------------------------------------------------------
