@@ -48,7 +48,8 @@ show_bmarks () {
     cat $bookmarks | grep $tag | awk -F': ' '{print $2}' > $tmpbookmarks
     url=$(cat $tmpbookmarks | dmenu -l 10)
     if [ -n "$url" ]; then
-	if [ "$browser" = "firefox" ]; then
+	if [ "$browser" = "firefox" ];
+	then
 	    $browser -new-tab $url 2>/dev/null
 	else
 	    $browser -isg $url &
@@ -105,13 +106,16 @@ do
 done
 #-------------------------------------------------------------------------------
 
-if [ $sflag -eq 1 -a $nargs -lt 3 -a $tflag -eq 0 ]; then
+if [ $sflag -eq 1 -a $nargs -lt 3 -a $tflag -eq 0 ];
+then
     show_bmarks $tag
     exit 0
-elif [ $aflag -eq 1 -a $nargs -gt 2 ]; then
+elif [ $aflag -eq 1 -a $nargs -gt 2 ];
+then
     tag_array $args $dalink
     exit 0
-elif [ $tflag -eq 1 -a $nargs -eq 1 ]; then
+elif [ $tflag -eq 1 -a $nargs -eq 1 ];
+then
     show_tags
     exit 0
 else
