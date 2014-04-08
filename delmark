@@ -1,0 +1,59 @@
+#!/bin/sh
+
+bookmarks=$HOME/repos/bookmarks/bookmarks.txt
+
+dflag=0
+
+usage () {
+    echo "Usage $0 [-h] [-d tag]"
+}
+
+del_mark () {
+#     cat $bookmarks | grep -n $mark
+#     awk '/"$mark"/{ print NR; }' $bookmarks
+
+mark=$(echo $mark | sed 's/^/@/')
+#echo $mark
+deleting=$(cat $bookmarks | grep $mark | dmenu -l 10)
+#echo $deleting
+
+# get number of line that $mark occurs
+#nol=$(grep -n $deleting $bookmarks | awk -F":" '{ print $1 }')
+nol=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
+#echo $nol
+#sed -e "$nold" $bookmarks > what.txt
+#mv what.txt $bookmarks
+#sed -e "$nold" $bookmarks > what.txt
+#mv what.txt $bookmarks
+#awk '{ if (NR!=$nol || NR!=$nol+1) print $0 }' bookmarks.txt > what.txt
+#awk 'NR!~/^(nol|nol+1)$/' $bookmarks
+
+}
+
+while :
+do
+    case $1 in
+	-h)
+	    usage
+	    exit 0
+	    ;;
+	-d)
+	    dflag=1
+	    mark=$2
+	    break
+	    ;;
+	*)
+	    usage
+	    exit 1
+	    ;;
+    esac
+done
+
+if [ $dflag -eq 1 -a $# -eq 2 ];
+then
+    del_mark $mark
+    exit 0
+else
+    usage
+    exit 1
+fi
