@@ -9,3 +9,7 @@ TODO
   with that tag.
 
 * add an interactive bookmark deleting option
+
+* add an option to delete all bookmarks matching a tag
+
+* extend -d option to open the bookmark before deleting it
