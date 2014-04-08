@@ -15,7 +15,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-t] [-n] [-s tag] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-t] [-n] [-s tag] [-d tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -68,11 +68,25 @@ count_marks () {
     cat $bookmarks | sed '/^\s*$/d' | wc -l
 }
 
+del_mark () {
+#    mark=$(echo $mark | sed 's/^/@/')
+    deleting=$(cat $bookmarks | grep $mark | dmenu -l 10)
+
+    # lines that are going to be deleted
+    l1=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
+    l2=$((l1 + 1))
+
+    #delete bookmarks and update $bookmarks
+    sed "$l1,${l2}d" $bookmarks > temp.txt
+    mv temp.txt $bookmarks
+}
+
 #-------------------------------------------------------------------------------
 # argument parsing
 #-------------------------------------------------------------------------------
 
 aflag=0
+dflag=0
 nflag=0
 sflag=0
 tflag=0
@@ -108,6 +122,13 @@ do
 	    nflag=1
 	    break
 	    ;;
+	-d)
+	    nargs=$#
+	    dflag=1
+	    mark=$2
+	    mark=$(echo $mark | sed 's/^/@/')
+	    break
+	    ;;
 	*)
 	    usage
 	    exit 1
@@ -131,6 +152,10 @@ then
 elif [ $nflag -eq 1 -a $nargs -eq 1 ];
 then
     count_marks
+    exit 0
+elif [ $dflag -eq 1 -a $nargs -eq 2 ];
+then
+    del_mark $mark
     exit 0
 else
     echo 'not enough or too many params'
