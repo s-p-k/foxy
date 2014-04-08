@@ -5,7 +5,7 @@ TODO
 
 * Don't oblige the user to use @ in the -a option
 
-* add -d option to delete uneeded bookmarks
-
 * add -l, like -t but when a user chooses a tag show all links marked
   with that tag.
+
+* add an interactive bookmark deleting option
