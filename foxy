@@ -15,7 +15,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-t] [-s tag] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-t] [-n] [-s tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -64,11 +64,16 @@ show_tags () {
 	| grep @ | sed 's/://' | sort -u | dmenu -l 10
 }
 
+count_marks () {
+    cat $bookmarks | sed '/^\s*$/d' | wc -l
+}
+
 #-------------------------------------------------------------------------------
 # argument parsing
 #-------------------------------------------------------------------------------
 
 aflag=0
+nflag=0
 sflag=0
 tflag=0
 
@@ -98,6 +103,11 @@ do
 	    tflag=1
 	    break
 	    ;;
+	-n)
+	    nargs=$#
+	    nflag=1
+	    break
+	    ;;
 	*)
 	    usage
 	    exit 1
@@ -117,6 +127,10 @@ then
 elif [ $tflag -eq 1 -a $nargs -eq 1 ];
 then
     show_tags
+    exit 0
+elif [ $nflag -eq 1 -a $nargs -eq 1 ];
+then
+    count_marks
     exit 0
 else
     echo 'not enough or too many params'

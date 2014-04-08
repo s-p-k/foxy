@@ -30,6 +30,10 @@ You can run foxy with the below options directly from dmenu:
 -t
 	show all bookmark tags filtered with uniq(1).
 
+-n
+	show the number of stored bookmarks. There's no point to use dmenu
+for this option. Just use your terminal.
+
 fmarks
 ======
 
