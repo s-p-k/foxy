@@ -47,7 +47,8 @@ tag_array () {
 show_bmarks () {
     cat $bookmarks | grep $tag | awk -F': ' '{print $2}' > $tmpbookmarks
     url=$(cat $tmpbookmarks | dmenu -l 10)
-    if [ -n "$url" ]; then
+    if [ -n "$url" ];
+    then
 	if [ "$browser" = "firefox" ];
 	then
 	    $browser -new-tab $url 2>/dev/null
@@ -69,16 +70,21 @@ count_marks () {
 }
 
 del_mark () {
-#    mark=$(echo $mark | sed 's/^/@/')
     deleting=$(cat $bookmarks | grep $mark | dmenu -l 10)
 
-    # lines that are going to be deleted
-    l1=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
-    l2=$((l1 + 1))
 
-    #delete bookmarks and update $bookmarks
-    sed "$l1,${l2}d" $bookmarks > temp.txt
-    mv temp.txt $bookmarks
+    if [ -n "$deleting" ];
+    then
+	# lines that are going to be deleted
+	l1=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
+	l2=$((l1 + 1))
+
+	#delete bookmarks and update $bookmarks
+	sed "$l1,${l2}d" $bookmarks > temp.txt
+	mv temp.txt $bookmarks
+    else
+	exit 0
+    fi
 }
 
 #-------------------------------------------------------------------------------
