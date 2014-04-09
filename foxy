@@ -15,7 +15,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-t] [-n] [-s tag] [-d tag] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-c] [-n] [-t] [-s tag] [-d tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -72,12 +72,20 @@ count_marks () {
 del_mark () {
     deleting=$(cat $bookmarks | grep $mark | dmenu -l 10)
 
-
     if [ -n "$deleting" ];
     then
 	# lines that are going to be deleted
 	l1=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
 	l2=$((l1 + 1))
+
+	######################################################################
+	# uncomment the 2 lines below if you want to read the bookmark you are
+	# deleting
+	#
+	#open=$(echo "$deleting" | grep "$mark" | awk -F': ' '{print $2}')
+	#$browser -isg $open &
+	#
+	######################################################################
 
 	#delete bookmarks and update $bookmarks
 	sed "$l1,${l2}d" $bookmarks > temp.txt
