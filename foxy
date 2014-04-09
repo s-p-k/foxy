@@ -15,7 +15,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-c] [-n] [-t] [-s tag] [-d tag] [-a link @tag1 @tag2...@tagn]"
+    echo "Usage: $0 [-h] [-n] [-t] [-c tag] [-d tag] [-s tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
