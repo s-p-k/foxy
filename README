@@ -32,11 +32,16 @@ You can run foxy with the below options directly from dmenu:
 
 -n
 	show the number of stored bookmarks. There's no point to use dmenu
-for this option. Just use your terminal.
+	for this option. Just use your terminal.
+
+-c tag
+	show number of bookmarks that are tagged with "tag"
 
 -d tag
-	search bookmarks for "tag", pipe output to dmenu, select and delete
-bookmark.
+	Delete a bookmark. Search bookmarks for "tag", pipe output to dmenu,
+	select and delete bookmark. There's an option to open to your browser the
+	bookmark you chose to delete if you uncomment 2 lines. Read the foxy src for
+	details.
 
 fmarks
 ======
