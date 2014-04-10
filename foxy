@@ -16,7 +16,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 #-------------------------------------------------------------------------------
 usage () {
     echo "Usage: $0 [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]" \
-    "[-a link @tag1 @tag2...@tagn]"
+	"[-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -80,11 +80,13 @@ del_mark () {
 	l2=$((l1 + 1))
 
 	######################################################################
-	# uncomment the 2 lines below if you want to read the bookmark you are
-	# deleting
+	# uncomment 2 lines below if you want to read the bookmark you are
+	# deleting.
 	#
 	#open=$(echo "$deleting" | grep "$mark" | awk -F': ' '{print $2}')
-	#$browser -isg $open &
+	#
+	#$browser -isg $open & # for surf
+	#$browser -new-tab $url 2>/dev/null # for firefox
 	#
 	######################################################################
 
@@ -100,6 +102,34 @@ enum_marks () {
     grep -c $tag $bookmarks
 }
 
+inter_delete () {
+    cat $bookmarks | grep $tag | sed '/^\s*$/d' > tmp.txt
+
+    while read line <&3
+    do
+	echo $line
+	echo "Do you wish to delete this bookmark? (y|n)?"
+	read yn
+	case $yn in
+	    Y | y)
+		l1=$(cat $bookmarks | grep -n "$line" | awk -F":" '{ print $1 }')
+		l2=$((l1 + 1))
+		sed "$l1,${l2}d" $bookmarks > temp.txt
+		mv temp.txt $bookmarks
+		continue
+		;;
+	    N | n)
+		continue
+		;;
+	    *)
+		echo "Are you a fushitass? Answer yes or no."
+		echo $line
+		echo "Do you wish to delete this bookmark? (y|n)?"
+		read yn
+		;;
+	esac
+    done 3< tmp.txt
+}
 #-------------------------------------------------------------------------------
 # argument parsing
 #-------------------------------------------------------------------------------
@@ -107,6 +137,7 @@ enum_marks () {
 aflag=0
 cflag=0
 dflag=0
+iflag=0
 nflag=0
 sflag=0
 tflag=0
@@ -156,6 +187,13 @@ do
 	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
+	-i)
+	    nargs=$#
+	    iflag=1
+	    tag=$2
+	    tag=$(echo $tag | sed 's/^/@/')
+	    break
+	    ;;
 	*)
 	    usage
 	    exit 1
@@ -187,6 +225,10 @@ then
 elif [ $cflag -eq 1 -a $nargs -eq 2 ];
 then
     enum_marks $tag
+    exit 0
+elif [ $iflag -eq 1 ];
+then
+    inter_delete $tag2
     exit 0
 else
     echo 'not enough or too many params'
