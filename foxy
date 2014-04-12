@@ -41,7 +41,7 @@ tag_array () {
     # append ": " to the and of the tags and the link
     echo $tags | sed 's/$/: /' | sed "s%$%$url%" >> $bookmarks
     # append new line to the end of the bookmark file
-    echo '' >> $bookmarks
+    echo >> $bookmarks
     exit 0
 }
 
