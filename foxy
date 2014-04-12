@@ -91,8 +91,8 @@ del_mark () {
 	######################################################################
 
 	#delete bookmarks and update $bookmarks
-	sed "$l1,${l2}d" $bookmarks > temp.txt
-	mv temp.txt $bookmarks
+	sed "$l1,${l2}d" $bookmarks > $tmpbookmarks
+	mv $tmpbookmarks $bookmarks
     else
 	exit 0
     fi
@@ -152,7 +152,6 @@ do
 	-s)
 	    sflag=1
 	    tag=$2
-	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	-a)
@@ -177,13 +176,11 @@ do
 	-c)
 	    cflag=1
 	    tag=$2
-	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	-i)
 	    iflag=1
 	    tag=$2
-	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	*)
@@ -193,6 +190,11 @@ do
     esac
 done
 #-------------------------------------------------------------------------------
+
+if [ $sflag -eq 1 -o $cflag -eq 1 -o $iflag -eq 1 ];
+then
+    tag=$(echo $tag | sed 's/^/@/')
+fi
 
 if [ $sflag -eq 1 -a $# -lt 3 -a $tflag -eq 0 ];
 then
