@@ -16,7 +16,7 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 #-------------------------------------------------------------------------------
 usage () {
     echo "Usage: $0 [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]" \
-	"[-a link @tag1 @tag2...@tagn]"
+	"[-i tag] [-a link @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -150,45 +150,38 @@ do
 	    exit 0
 	    ;;
 	-s)
-	    nargs=$#
 	    sflag=1
 	    tag=$2
 	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	-a)
-	    nargs=$#
 	    args=$*
 	    dalink=$2
 	    aflag=1
 	    break
 	    ;;
 	-t)
-	    nargs=$#
 	    tflag=1
 	    break
 	    ;;
 	-n)
-	    nargs=$#
 	    nflag=1
 	    break
 	    ;;
 	-d)
-	    nargs=$#
 	    dflag=1
 	    mark=$2
 	    mark=$(echo $mark | sed 's/^/@/')
 	    break
 	    ;;
 	-c)
-	    nargs=$#
 	    cflag=1
 	    tag=$2
 	    tag=$(echo $tag | sed 's/^/@/')
 	    break
 	    ;;
 	-i)
-	    nargs=$#
 	    iflag=1
 	    tag=$2
 	    tag=$(echo $tag | sed 's/^/@/')
@@ -202,33 +195,33 @@ do
 done
 #-------------------------------------------------------------------------------
 
-if [ $sflag -eq 1 -a $nargs -lt 3 -a $tflag -eq 0 ];
+if [ $sflag -eq 1 -a $# -lt 3 -a $tflag -eq 0 ];
 then
     show_bmarks $tag
     exit 0
-elif [ $aflag -eq 1 -a $nargs -gt 2 ];
+elif [ $aflag -eq 1 -a $# -gt 2 ];
 then
     tag_array $args $dalink
     exit 0
-elif [ $tflag -eq 1 -a $nargs -eq 1 ];
+elif [ $tflag -eq 1 -a $# -eq 1 ];
 then
     show_tags
     exit 0
-elif [ $nflag -eq 1 -a $nargs -eq 1 ];
+elif [ $nflag -eq 1 -a $# -eq 1 ];
 then
     count_marks
     exit 0
-elif [ $dflag -eq 1 -a $nargs -eq 2 ];
+elif [ $dflag -eq 1 -a $# -eq 2 ];
 then
     del_mark $mark
     exit 0
-elif [ $cflag -eq 1 -a $nargs -eq 2 ];
+elif [ $cflag -eq 1 -a $# -eq 2 ];
 then
     enum_marks $tag
     exit 0
 elif [ $iflag -eq 1 ];
 then
-    inter_delete $tag2
+    inter_delete $tag
     exit 0
 else
     echo 'not enough or too many params'
