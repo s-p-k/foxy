@@ -22,7 +22,7 @@ usage () {
 tag_array () {
     tags=""
     
-    for i in $args
+    for i in $*
     do
 	if [ $i == "-a" ];
 	then
@@ -39,7 +39,7 @@ tag_array () {
     # keep only the tags
     tags=$(echo $tags | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
     # append ": " to the and of the tags and the link
-    echo $tags | sed 's/$/: /' | sed "s%$%$dalink%" >> $bookmarks
+    echo $tags | sed 's/$/: /' | sed "s%$%$url%" >> $bookmarks
     # append new line to the end of the bookmark file
     echo '' >> $bookmarks
     exit 0
@@ -156,8 +156,7 @@ do
 	    break
 	    ;;
 	-a)
-	    args=$*
-	    dalink=$2
+	    url=$2
 	    aflag=1
 	    break
 	    ;;
@@ -201,7 +200,7 @@ then
     exit 0
 elif [ $aflag -eq 1 -a $# -gt 2 ];
 then
-    tag_array $args $dalink
+    tag_array $* $url
     exit 0
 elif [ $tflag -eq 1 -a $# -eq 1 ];
 then
