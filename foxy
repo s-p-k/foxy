@@ -63,7 +63,7 @@ show_bmarks () {
 
 show_tags () {
     cat $bookmarks | awk '{print $0}' RS=' ' \
-	| grep @ | sed 's/://' | sort -u | dmenu -l 10
+	| grep @ | sed 's/://' | sort -u
 }
 
 count_marks () {
