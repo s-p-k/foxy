@@ -10,13 +10,14 @@
 browser=surf
 bookmarks=$HOME/repos/bookmarks/bookmarks.txt
 tmpbookmarks=$HOME/repos/foxy/tmp.txt
+sessionfile=$HOME/repos/foxy/tmpsession.html
 
 #-------------------------------------------------------------------------------
 # functions
 #-------------------------------------------------------------------------------
 usage () {
     echo "Usage: $0 [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]" \
-	"[-i tag] [-a link @tag1 @tag2...@tagn]"
+	"[-i tag] [-a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]"
 }
 
 tag_array () {
@@ -42,6 +43,31 @@ tag_array () {
     echo $tags | sed 's/$/: /' | sed "s%$%$url%" >> $bookmarks
     # append new line to the end of the bookmark file
     echo >> $bookmarks
+    exit 0
+}
+
+save_session () {
+    tags=""
+
+    for i in $*
+    do
+	if [ $i == "-b" ];
+	then
+	    continue
+	elif [ $i == "-s" -o $i == "-t" ];
+	then
+	    echo "don't use more than one flags"
+	    usage
+	    exit 1
+	else
+	    tags="$tags $i "
+	fi
+    done
+    # keep only the tags
+    tags=$(echo $tags | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    # save each link with the tags specified with the -b option
+    cat $sessionfile | grep href | grep -o '"[^"]\+"' | tr '"' ' ' \
+	| sed "s%^%$tags:%" | sed s/^.//g | sed s/$/\\n/ >> $bookmarks
     exit 0
 }
 
@@ -135,6 +161,7 @@ inter_delete () {
 #-------------------------------------------------------------------------------
 
 aflag=0
+bflag=0
 cflag=0
 dflag=0
 iflag=0
@@ -173,6 +200,10 @@ do
 	    mark=$(echo $mark | sed 's/^/@/')
 	    break
 	    ;;
+	-b)
+	    bflag=1
+	    break
+	    ;;
 	-c)
 	    cflag=1
 	    tag=$2
@@ -199,6 +230,10 @@ fi
 if [ $sflag -eq 1 -a $# -lt 3 -a $tflag -eq 0 ];
 then
     show_bmarks $tag
+    exit 0
+elif [ $bflag -eq 1 ];
+then
+    save_session $*
     exit 0
 elif [ $aflag -eq 1 -a $# -gt 2 ];
 then

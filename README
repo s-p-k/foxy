@@ -27,6 +27,14 @@ You can run foxy with the below options directly from dmenu:
 
 	e.g. foxy -a http://www.google.com @search-engine @google
 
+-b @tag1 @tag2...@tagn
+   	This option works only for firefox. It saves your current firefox session
+	to your bookmarks file. The same tags are used for all the links in your
+	firefox session. To use the -b option you must have installed the
+	session exporter[1] add-on. For the time being -b assumes it's called
+	properly so handle with care. Keep a back-up of your bookmarks file
+	before trying this option. 
+
 -t
 	show all bookmark tags filtered with uniq(1).
 
@@ -65,3 +73,5 @@ Bugs
 
 If a proper number of arguments is passed to foxy when using the -a flag,
 it can't tell if the user passed a proper URL
+
+[1]: https://addons.mozilla.org/en-US/firefox/addon/session-exporter/?src=cb-dl-recentlyadded
