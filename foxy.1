@@ -1,0 +1,73 @@
+.TH FOXY 1 "October 2014"
+.SH NAME
+foxy \- The text bookmark manager
+.SH SYNOPSIS
+.B foxy [ -h ][ -n ][ -t ] [ -c tag ] [ -d tag ] [ -s tag] [ -i tag ]
+.B [ -a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]
+.SH DESCRIPTION
+foxy is a simple script that handles text bookmarks for firefox and surf
+browsers. In order to work properly, foxy needs dmenu of the suckless team.
+
+.br
+All options can be run directly in dmenu except for -h and -t.
+
+.SH OPTIONS
+.TP
+.B \-h
+Show the help message and exit.
+.TP
+.B \-n
+Show the total number of saved bookmarks.
+.TP
+.B \-t
+Show the total number of tags.
+.TP
+.B \-c tag
+Show the total number of bookmarks tagged with `tag'
+.TP
+.B \-d tag
+Search for bookmarks tagged with `tag', select one, then delete it.
+.TP
+.B \-s tag
+Search for bookmarks tagged with `tag', select one, then open it to your browser.
+.TP
+.B \-i tag
+Interactively delete bookmarks.
+.TP
+.B \-a link @tag1 @tag2...@tagn
+Add a new bookmark. Give it at least one tag. Note that when you are adding
+a bookmark you must prepend each tag name with a `@'. The same happens with the
+-b option below.
+.TP
+.B \-b @tag1 @tag2...@tagn
+This is experimental and I'm not sure if I'm keeping it to foxy.
+It works only for firefox. It saves your current firefox session
+to your bookmarks file. The same tags are used for all the links in your
+firefox session. To use the -b option you must have installed the session
+exporter[1] add-on. For now, foxy assumes -b is called properly so handle
+with care. Keep a back-up of your bookmarks file before trying this option. 
+.SH FILE(S)
+.TP
+bookmarks:
+As the name indicates, bookmarks is the text file that foxy
+saves your bookmarks.
+
+.TP
+tmpbookmarks:
+It's a temporary text file that foxy uses when shows or deletes bookmarks.
+
+.TP
+sessionfile:
+It's the html file that session exporter creates. It holds the current
+firefox session.
+
+.SH BUGS
+If a proper number of arguments is passed to foxy when using the -a flag,
+it can't tell if the user passed a proper URL
+.SH REPO
+The latest version of foxy can be found here:
+
+https://github.com/s-p-k/foxy
+
+.SH COPYRIGHT
+Copyright (c) 2014, spk (mr.dwts@gmail.com)
