@@ -42,15 +42,15 @@ do
 done
 
 if [ $sflag -eq 1 ]; then
-    URL=$(cat $PAGES | dmenu -l 10)
+    URL=$(dmenu -l 10 < "$PAGES")
     if [ -n "$URL" ]; then
-	surf -sg $URL &
+	surf -sg "$URL" &
     fi
 fi
 
 if [ $fflag -eq 1 ]; then
-    URL=$(cat $PAGES | dmenu -l 10)
+    URL=$(dmenu -l 10 < "$PAGES")
     if [ -n "$URL" ]; then
-	firefox -new-tab $URL 2>/dev/null
+	firefox -new-tab "$URL" 2>/dev/null
     fi
 fi
