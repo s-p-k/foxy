@@ -33,12 +33,12 @@ usage () {
 tag_array () {
     tags=""
     
-    for i in $*
+    for i in "$@"
     do
-	if [ $i == "-a" ];
+	if [ "$i" = "-a" ];
 	then
 	    continue
-	elif [ $i == "-s" -o $i == "-t" ];
+	elif [ "$i" = "-s" -o "$i" = "-t" ];
 	then
 	    echo "don't use more than one flags"
 	    usage
@@ -48,23 +48,23 @@ tag_array () {
 	fi
     done
     # keep only the tags
-    tags=$(echo $tags | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    tags=$(echo "$tags" | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
     # append ": " to the and of the tags and the link
-    echo $tags | sed 's/$/: /' | sed "s%$%$url%" >> $bookmarks
+    echo "$tags" | sed 's/$/: /' | sed "s%$%$url%" >> "$bookmarks"
     # append new line to the end of the bookmark file
-    echo >> $bookmarks
+    echo >> "$bookmarks"
     exit 0
 }
 
 save_session () {
     tags=""
 
-    for i in $*
+    for i in "$@"
     do
-	if [ $i == "-b" ];
+	if [ "$i" = "-b" ];
 	then
 	    continue
-	elif [ $i == "-s" -o $i == "-t" ];
+	elif [ "$i" = "-s" -o "$i" = "-t" ];
 	then
 	    echo "don't use more than one flags"
 	    usage
@@ -74,23 +74,23 @@ save_session () {
 	fi
     done
     # keep only the tags
-    tags=$(echo $tags | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
+    tags=$(echo "$tags" | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
     # save each link with the tags specified with the -b option
-    cat $sessionfile | grep href | grep -o '"[^"]\+"' | tr '"' ' ' \
-	| sed "s%^%$tags:%" | sed s/^.//g | sed s/$/\\n/ >> $bookmarks
+    cat "$sessionfile" | grep href | grep -o '"[^"]\+"' | tr '"' ' ' \
+	| sed "s%^%$tags:%" | sed s/^.//g | sed s/$/\\n/ >> "$bookmarks"
     exit 0
 }
 
 show_bmarks () {
-    cat $bookmarks | grep $tag | awk -F': ' '{print $2}' > $tmpbookmarks
-    url=$(cat $tmpbookmarks | dmenu -l 10)
+    cat "$bookmarks" | grep "$tag" | awk -F': ' '{print $2}' > "$tmpbookmarks"
+    url=$(cat "$tmpbookmarks" | dmenu -l 10)
     if [ -n "$url" ];
     then
 	if [ "$browser" = "firefox" ];
 	then
-	    $browser -new-tab $url 2>/dev/null
+	    $browser -new-tab "$url" 2>/dev/null
 	else
-	    $browser -isg $url &
+	    $browser -isg "$url" &
 	fi
     else
 	echo "no links found"
@@ -98,21 +98,21 @@ show_bmarks () {
 }
 
 show_tags () {
-    cat $bookmarks | awk '{print $0}' RS=' ' \
+    cat "$bookmarks" | awk '{print $0}' RS=' ' \
 	| grep @ | sed 's/://' | sort -u
 }
 
 count_marks () {
-    cat $bookmarks | sed '/^\s*$/d' | wc -l
+    cat "$bookmarks" | sed '/^\s*$/d' | wc -l
 }
 
 del_mark () {
-    deleting=$(cat $bookmarks | grep $mark | dmenu -l 10)
+    deleting=$(cat "$bookmarks" | grep "$mark" | dmenu -l 10)
 
     if [ -n "$deleting" ];
     then
 	# lines that are going to be deleted
-	l1=$(cat $bookmarks | grep -n "$deleting" | awk -F":" '{ print $1 }')
+	l1=$(cat "$bookmarks" | grep -n "$deleting" | awk -F":" '{ print $1 }')
 	l2=$((l1 + 1))
 
 	######################################################################
@@ -127,31 +127,31 @@ del_mark () {
 	######################################################################
 
 	#delete bookmarks and update $bookmarks
-	sed "$l1,${l2}d" $bookmarks > $tmpbookmarks
-	mv $tmpbookmarks $bookmarks
+	sed "$l1,${l2}d" "$bookmarks" > "$tmpbookmarks"
+	mv "$tmpbookmarks" "$bookmarks"
     else
 	exit 0
     fi
 }
 
 enum_marks () {
-    grep -c $tag $bookmarks
+    grep -c "$tag" "$bookmarks"
 }
 
 inter_delete () {
-    cat $bookmarks | grep $tag | sed '/^\s*$/d' > tmp.txt
+    cat "$bookmarks" | grep "$tag" | sed '/^\s*$/d' > tmp.txt
 
     while read line <&3
     do
-	echo $line
+	echo "$line"
 	echo "Do you wish to delete this bookmark? (y|n)?"
 	read yn
 	case $yn in
 	    Y | y)
-		l1=$(cat $bookmarks | grep -n "$line" | awk -F":" '{ print $1 }')
+		l1=$(cat "$bookmarks" | grep -n "$line" | awk -F":" '{ print $1 }')
 		l2=$((l1 + 1))
-		sed "$l1,${l2}d" $bookmarks > temp.txt
-		mv temp.txt $bookmarks
+		sed "$l1,${l2}d" "$bookmarks" > temp.txt
+		mv temp.txt "$bookmarks"
 		continue
 		;;
 	    N | n)
@@ -159,7 +159,7 @@ inter_delete () {
 		;;
 	    *)
 		echo "Are you a fushitass? Answer yes or no."
-		echo $line
+		echo "$line"
 		echo "Do you wish to delete this bookmark? (y|n)?"
 		read yn
 		;;
@@ -207,7 +207,7 @@ do
 	-d)
 	    dflag=1
 	    mark=$2
-	    mark=$(echo $mark | sed 's/^/@/')
+	    mark=$(echo "$mark" | sed 's/^/@/')
 	    break
 	    ;;
 	-b)
@@ -234,20 +234,20 @@ done
 
 if [ $sflag -eq 1 -o $cflag -eq 1 -o $iflag -eq 1 ];
 then
-    tag=$(echo $tag | sed 's/^/@/')
+    tag=$(echo "$tag" | sed 's/^/@/')
 fi
 
 if [ $sflag -eq 1 -a $# -lt 3 -a $tflag -eq 0 ];
 then
-    show_bmarks $tag
+    show_bmarks "$tag"
     exit 0
 elif [ $bflag -eq 1 ];
 then
-    save_session $*
+    save_session "$*"
     exit 0
 elif [ $aflag -eq 1 -a $# -gt 2 ];
 then
-    tag_array $* $url
+    tag_array "$*" "$url"
     exit 0
 elif [ $tflag -eq 1 -a $# -eq 1 ];
 then
@@ -259,15 +259,15 @@ then
     exit 0
 elif [ $dflag -eq 1 -a $# -eq 2 ];
 then
-    del_mark $mark
+    del_mark "$mark"
     exit 0
 elif [ $cflag -eq 1 -a $# -eq 2 ];
 then
-    enum_marks $tag
+    enum_marks "$tag"
     exit 0
 elif [ $iflag -eq 1 ];
 then
-    inter_delete $tag
+    inter_delete "$tag"
     exit 0
 else
     echo 'not enough or too many params'
