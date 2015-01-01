@@ -1,13 +1,14 @@
 TODO
 ====
 
-* Handle links that have "weird" characters
+* Handle links that have "weird" characters.
 
-* Don't oblige the user to use @ in the -a option
+* Don't oblige the user to use @ in the -a option.
 
 * add -l, like -t but when a user chooses a tag show all links marked
   with that tag.
 
-* add an interactive bookmark deleting option
+* add an option to delete all bookmarks matching a tag.
 
-* add an option to delete all bookmarks matching a tag
+* Update README and man page.
+
