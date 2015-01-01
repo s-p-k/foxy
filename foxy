@@ -26,7 +26,6 @@ usage () {
     echo "-s        search for a bookmark"
     echo "-i        interactively delete bookmarks"
     echo "-a        add a new bookmark"
-    echo "-b        save whole firefox session as bookmarks (EXPERIMENTAL)"
 }
 
 tag_array () {
