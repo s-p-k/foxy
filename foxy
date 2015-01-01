@@ -10,7 +10,6 @@
 browser=surf
 bookmarks=$HOME/repos/bookmarks/bookmarks.txt
 tmpbookmarks=$HOME/repos/foxy/tmp.txt
-sessionfile=$HOME/repos/foxy/tmpsession.html
 
 #-------------------------------------------------------------------------------
 # functions
