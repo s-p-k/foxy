@@ -15,17 +15,17 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-    echo "Usage: $0 [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]" \
-	"[-i tag] [-a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]"
+	printf "Usage: %s [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]\n" "$0"
+       printf "\t[-i tag] [-a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]\n"
 
-    echo "-h        show this message"
-    echo "-n        show the total number of bookmarks"
-    echo "-t        show all available tags"
-    echo "-c        show the total number of bookarks tagged with tag"
-    echo "-d        search for bookmark, then delete it"
-    echo "-s        search for a bookmark"
-    echo "-i        interactively delete bookmarks"
-    echo "-a        add a new bookmark"
+    printf "%sh        show this message\n" -
+    printf "%sn        show the total number of bookmarks\n" -
+    printf "%st        show all available tags\n" -
+    printf "%sc        show the total number of bookarks tagged with tag\n" -
+    printf "%sd        search for bookmark, then delete it\n" -
+    printf "%ss        search for a bookmark\n" -
+    printf "%si        interactively delete bookmarks\n" -
+    printf "%sa        add a new bookmark\n" -
 }
 
 tag_array () {
