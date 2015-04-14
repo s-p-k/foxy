@@ -15,8 +15,8 @@ tmpbookmarks=$HOME/repos/foxy/tmp.txt
 # functions
 #-------------------------------------------------------------------------------
 usage () {
-	printf "Usage: %s [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]\n" "$0"
-       printf "\t[-i tag] [-a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]\n"
+    printf "Usage: %s [-h] [-n] [-t] [-c tag] [-d tag] [-s tag]\n" "$0"
+    printf "\t[-i tag] [-a link @tag1 @tag2...@tagn] [-b @tag1 @tag2...@tagn]\n"
 
     printf "%sh        show this message\n" -
     printf "%sn        show the total number of bookmarks\n" -
