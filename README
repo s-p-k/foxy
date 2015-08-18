@@ -1,5 +1,12 @@
 NOTE: In order to work properly, foxy needs dmenu.
 
+installing foxy and fmarks
+==========================
+
+Installing foxy and fmarks you simply have to run `make install`. Manual page of
+foxy is also installed with the scripts. To remove both scripts you must run
+`make uninstall`.
+
 foxy
 ====
 
