@@ -1,5 +1,6 @@
-www.duckduckgo.com
-www.google.com
-git.2f30.org
-www.reddit.com/r/earthporn
-www.reddit.com/r/unixporn
+https://www.duckduckgo.com
+https://www.searx.me
+https://www.google.com
+https://git.2f30.org
+https://www.reddit.com/r/earthporn
+https://www.reddit.com/r/unixporn
