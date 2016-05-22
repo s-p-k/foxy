@@ -113,11 +113,11 @@ enum_marks () {
 inter_delete () {
     grep "$tag" "$bookmarks" | sed '/^\s*$/d' > tmp.txt
 
-    while read line <&3
+    while read -r line <&3
     do
 	echo "$line"
 	echo "Do you wish to delete this bookmark? (y|n)?"
-	read yn
+	read -r yn
 	case $yn in
 	    Y | y)
 		l1=$(grep -n "$line" "$bookmarks" | awk -F":" '{ print $1 }')
@@ -133,7 +133,7 @@ inter_delete () {
 		echo "Are you a fushitass? Answer yes or no."
 		echo "$line"
 		echo "Do you wish to delete this bookmark? (y|n)?"
-		read yn
+		read -r yn
 		;;
 	esac
     done 3< tmp.txt
