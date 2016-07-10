@@ -28,30 +28,17 @@ usage () {
     printf "%sa        add a new bookmark\n" -
 }
 
+
 tag_array () {
-    tags=""
-    
-    for i in "$@"
-    do
-	if [ "$i" = "-a" ];
-	then
-	    continue
-	elif [ "$i" = "-s" -o "$i" = "-t" ];
-	then
-	    echo "don't use more than one flags"
-	    usage
-	    exit 1
-	else
-	    tags="$tags $i "
-	fi
-    done
-    # keep only the tags
-    tags=$(echo "$tags" | awk -F': ' '{print $1}' | sed -n 's/[^@]*//p')
-    # append ": " to the and of the tags and the link
-    echo "$tags" | sed 's/$/: /' | sed "s%$%$url%" >> "$bookmarks"
-    # append new line to the end of the bookmark file
-    echo >> "$bookmarks"
-    exit 0
+        numberofwords=$(echo "$@" | wc -w)
+        numberofwords=$((numberofwords-=1))
+        # keep only the tags
+        tags=$(echo "$@" |  cut -d' ' -f3-"$numberofwords")
+        # append ": " to the and of the tags and add the link
+        echo "$tags" | sed 's/$/: /' | sed "s%$%$url%" >> "$bookmarks"
+        # append new line to the end fo the bookmark file
+        echo >> "$bookmarks"
+        exit 0
 }
 
 show_bmarks () {
