@@ -6,8 +6,9 @@
 # files & browsers
 #-------------------------------------------------------------------------------
 
+browser=chromium
 #browser=firefox
-browser=surf
+#browser=surf
 bookmarks=$HOME/repos/bookmarks/bookmarks.txt
 tmpbookmarks=$HOME/repos/foxy/tmp.txt
 
@@ -48,9 +49,12 @@ show_bmarks () {
     then
 	if [ "$browser" = "firefox" ];
 	then
-	    $browser -new-tab "$url" 2>/dev/null
+            "$browser" -new-tab "$url" 2>/dev/null
+        elif [ "$browser" = "chromium" ];
+        then
+            "$browser" "$url" 2>/dev/null
 	else
-	    $browser -isg "$url" &
+	    "$browser" -isg "$url" &
 	fi
     else
 	echo "no links found"
